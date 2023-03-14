@@ -10,7 +10,6 @@
     <br />
     <?php
 
-use function PHPSTORM_META\type;
 
         $s1 = "2 raj"; 
         $s2 = 2;
@@ -21,8 +20,16 @@ use function PHPSTORM_META\type;
         echo gettype($s4);
     ?>
     <br />
+    <h2>Constant </h2>
+    <br />
+    <?php
+        define ("Raj", 520);
+        echo Raj;
+        //Raj += 1;
+        //echo Raj;
 
-
+    ?>
+<br />
     <h2>Strings</h2>
     <?php
     $first = "The quick brown fox";
