@@ -46,16 +46,46 @@
 
 
     <h2>Arrays</h2>
-    <?php 
-        $a1 = array(4,5,6,array(2,1,3),9,2); 
-        echo $a1[3][1];
-        $a1[3] = "Raj";
+    <?php
+    $a1 = array(4, 5, 6, array(2, 1, 3), 9, 2);
+    echo $a1[3][1];
+    $a1[3] = "Raj";
 
-        echo "<br/>";
-        echo $a1[3];
-    ?><br>
+    echo "<br/>";
+    echo $a1[3];
+    echo "<br/>";
 
+    $a2 = array("f_name" => "D", "l_name" => "Raj");
 
+    echo $a2["f_name"];
+    echo "<br/>";
+
+    ?>
+
+    <br />
+
+    <pre><?php print_r($a2); ?></pre>
+
+    <br />
+    <br />
+
+    Count: <?php $a7 = array(4, 5, 6, array(2, 1, 3), 9, 2);
+            echo count($a7); ?> <br />
+    <br />
+    Reverse Sort: <?php rsort($a7);
+                    print_r($a7) ?><br />
+
+    <?php $a8 = array(4, 5, 6, 8, 9, 2); ?>
+    String Implode : <?php echo  $a9 = implode(" * ", $a8);
+    ?><br />
+     explode : <?php print_r(  explode(" * ", $a9));
+    ?><br />
+
+    <?php
+
+    echo in_array(2, $a8);
+
+    ?>
 </body>
 
 </html>
