@@ -5,7 +5,32 @@
 </head>
 
 <body>
-    <h1>Strings</h1>
+    <br />
+    <h2>Type Casting</h2>
+    <br />
+    <?php
+
+
+        $s1 = "2 raj"; 
+        $s2 = 2;
+        $s3 = $s1 + $s2; //php will give notice auto
+        
+        $s4 = (int)$s1;
+
+        echo gettype($s4);
+    ?>
+    <br />
+    <h2>Constant </h2>
+    <br />
+    <?php
+        define ("Raj", 520);
+        echo Raj;
+        //Raj += 1;
+        //echo Raj;
+
+    ?>
+<br />
+    <h2>Strings</h2>
     <?php
     $first = "The quick brown fox";
     $second = " jumps over the lazy dog.";
@@ -77,15 +102,28 @@
 
     <?php $a8 = array(4, 5, 6, 8, 9, 2); ?>
     String Implode : <?php echo  $a9 = implode(" * ", $a8);
-    ?><br />
-     explode : <?php print_r(  explode(" * ", $a9));
-    ?><br />
+                        ?><br />
+    explode : <?php print_r(explode(" * ", $a9));
+                ?><br />
 
     <?php
 
     echo in_array(2, $a8);
 
     ?>
+    <br />
+
+    <?php
+    $var1 = 3;
+    $var2 = "Raj";
+
+    echo isset($var1);
+    echo "<br />  var 3 : ";
+    echo isset($var1);
+    echo "<br />  var 1 : ";
+    echo empty($var1);
+    ?>
+
 </body>
 
 </html>
