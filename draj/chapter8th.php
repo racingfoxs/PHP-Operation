@@ -15,6 +15,16 @@
             echo $position . "=" . $item .",";
         }
         ?>
+
+        <?php 
+        function numbersRaj($abc){
+            echo $abc;
+
+            return false;
+        }
+
+        numbersRaj(5896658);
+        ?>
 	
 	</body>
 </html>
