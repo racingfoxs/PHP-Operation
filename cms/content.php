@@ -1,53 +1,47 @@
 <?php require_once('./includes/functions.php'); ?>
 <?php require_once('./includes/dbconnect.php'); ?>
 <?php include('./includes/header.php'); ?>
-<?php
-if (isset($_GET['subj'])) {
-	$sel_subj = $_GET['subj'];
-	$sel_page = "";
-} elseif (isset($_GET['page'])) {
-	$sel_subj = "";
-	$sel_page = $_GET['page'];
-} else {
-	$sel_subj = "";
-	$sel_page = "";
-}
-
-// echo $sel_subj; checking we are getting it or not
-// echo $sel_page;
-?>
-
-<div>
+<?php find_selected_page(); ?>
+<div class="w-full p-4 dark:bg-gray-900 dark:text-gray-100">
+    <div class="flex justify-center item-center">        
+        <h1 class="font-bold text-teal-400">Content Mangement System</h1>
+    </div>
+</div>
+<div class="flex justify-start item-center">
+   
     <div>
-        <aside class="w-full h-screen p-6 sm:w-60 dark:bg-gray-900 dark:text-gray-100">
+        <aside class="w-full h-full p-6 sm:w-60 dark:bg-gray-900 dark:text-gray-100">
             <nav class="space-y-8 text-sm">
-                <div class="space-y-2">
-                    <h2 class="text-sm font-semibold tracking-widest uppercase dark:text-gray-400">Nav</h2>
+            <div class="space-y-2">
+                    <h2 class="text-sm font-semibold tracking-widest uppercase dark:text-gray-400">Navigation</h2>
                     <div class="flex flex-col space-y-1">
-                        <?php                        
-                        $subjects = get_all_subject();  
-                        while ($subject = mysqli_fetch_array($subjects)) {
-                            echo "<a";
-                            echo " href=\"content.php?subj=" . urlencode($subject['id']) . "\"";
-                            if($subject['id'] == $sel_subj){
-                                echo " class=\"font-bold\"";
-                            }                            
-                            echo ">{$subject["menu_name"]}</a;>";
-                            $pages = get_all_pages($subject["id"]);
-                            while ($page = mysqli_fetch_array($pages)) {
-                                echo "<a";
-                                if($page['id'] == $sel_page){
-                                    echo " class=\"font-bold\"";
-                                }    
-                                echo " href=\"content.php?page=" . urlencode($page["id"]) . "\" classname=\"pb-12 bg-teal-400\"> {$page["menu_name"]}</a>";    
-                            }
-                            echo "<br />";
-                        } ?>
-                        <!-- <a rel="noopener noreferrer" href="#">Plugins</a> -->
+                    <?php echo navigation($subject_one, $page_one); ?>
                     </div>
+                    
+                </div>
+                <div class="bg-teal-700 text-white rounded-sm p-2 hover:bg-teal-500">
+                    <a href="new-subject.php">
+                        Add New Subject
+                    </a>
                 </div>
             </nav>
         </aside>
+    </div>
+    <div>
+        <div class="p-6">
+            <?php if (!is_null($subject_one)) { // subject selected ?>
+			<h2 class="text-xl text-teal-400 font-bold" ><?php echo $subject_one['menu_name']; ?></h2>
+		<?php } elseif (!is_null($page_one)) { // page selected ?>
+			<h2 class="text-xl text-teal-400 font-bold"><?php echo $page_one['menu_name']; ?></h2>
+			<div class="py-2">
+				<?php echo $page_one['content']; ?>
+			</div>
+			<br />
+			<a class="bg-red-500 rounded p-2 text-white hover:bg-red-400" href="edit_page.php?page=<?php echo urlencode($subject_one['id']); ?>">Edit page</a>
+		<?php } else { // nothing selected ?>
+			<h2 class="text-xl text-teal-400 font-bold">Select a subject or page to edit</h2>
+		<?php } ?>
+        </div>
     </div>
 </div>
 
