@@ -2,9 +2,30 @@
 <?php require_once('./includes/dbconnect.php'); ?>
 <?php include('./includes/header.php'); ?>
 <?php
-$menu_name = $_POST['menu_name'];
-$position = $_POST['position'];
-$visible = $_POST['visible'];
+$errors = array();
+
+$required_fields = array('menu_name', 'position', 'visible');
+foreach ($required_fields as $fieldname) {
+    if (!isset($_POST[$fieldname]) || empty($_POST[$fieldname])) {
+        $errors[] = $fieldname;
+    }
+}
+
+$fields_with_lengths = array('menu_name' => 30);
+foreach ($fields_with_lengths as $fieldname => $maxlength) {
+    if (strlen(trim(mysql_prep($_POST[$fieldname]))) > $maxlength) {
+        $errors[] = $fieldname;
+    }
+}
+
+if (!empty($errors)) {
+    redirect_to('new-subject.php');
+}
+?>
+<?php
+    $menu_name = mysql_prep($_POST['menu_name']);
+    $position = mysql_prep($_POST['position']);
+    $visible = mysql_prep($_POST['visible']);
 ?>
 <?php
 $query = "INSERT INTO subjects (
@@ -23,7 +44,7 @@ $create_result = $connection->query($query);
 </div>
 <div class="flex justify-start item-center">
 
-    <div>
+    <div class="h-full">
         <aside class="w-full h-full p-6 sm:w-60 dark:bg-gray-900 dark:text-gray-100">
             <nav class="space-y-8 text-sm">
                 <div class="space-y-2">
@@ -40,12 +61,12 @@ $create_result = $connection->query($query);
         <div class="dark:bg-gray-800 dark:text-gray-50 h-screen w-2/3">
             <section class="p-6 dark:bg-gray-800 dark:text-gray-50">
                 <h2 class="text-3xl font-bold text-teal-500 py-6">
-                <?php if ($create_result) {
+                    <?php if ($create_result) {
 
-                    echo "Added Successfully";
-                } else {
-                    echo "<p>Subject creation failed.</p>";
-                } ?>
+                        echo "Added Successfully";
+                    } else {
+                        echo "<p>Subject creation failed.</p>";
+                    } ?>
                 </h2>
 
                 <div class="flex justify-start item-center gap-4 py-2">

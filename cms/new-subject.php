@@ -25,6 +25,11 @@
     <div>
         <div class="p-6">
             <section class="p-6 dark:bg-gray-800 dark:text-gray-50">
+                <h1>
+                    <?php global $errors;
+                   echo $errors;
+                    ?>
+                </h1>
                 <form action="create-subject.php" method="post" class="rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
                     <h2 class="text-lg font-medium title-font mb-5">Add Subject</h2>
                     <div class="relative mb-4">
@@ -49,9 +54,9 @@
                     <div class="relative mb-4">
                         <p class="leading-7 text-sm">Visible</p>
 
-                        <input type="radio" id="forno" name="visible" checked value="0" class=" bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <input type="radio" id="forno" name="visible" value="0" class=" bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         <label for="forno" class="leading-7 text-sm mr-8">No</label>
-                        <input type="radio" id="foryes" name="visible" value="1" class=" bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <input type="radio" id="foryes" name="visible" checked value="1" class=" bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         <label for="foryes" class="leading-7 text-sm ">Yes</label>
                     </div>
                     <div class="flex justify-between item-center gap-4 py-2">

@@ -1,6 +1,22 @@
 
 <?php
 
+function redirect_to($location = NULL){
+    if($location == !NULL){
+        header("Location: {$location}");
+        exit;
+    }
+}
+
+
+
+function mysql_prep( $value ) {
+    global $connection;
+    $value = mysqli_real_escape_string(  $connection, $value );
+   
+    return $value;
+}
+
 function confirm_query($query) {
     global $connection;
     if ($connection->error) {
@@ -77,7 +93,7 @@ function navigation($subject_one, $page_one ){
                         $output = "";
                         while ($subject = mysqli_fetch_array($subjects)) {
                             $output .= "<a";
-                            $output .= " href=\"content.php?subj=" . urlencode($subject['id']) . "\"";
+                            $output .= " href=\"edit-subject.php?subj=" . urlencode($subject['id']) . "\"";
 
                             if(isset($subject_one['id'])){
                                 if($subject['id'] == $subject_one['id']){
