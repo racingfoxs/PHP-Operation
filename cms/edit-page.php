@@ -3,7 +3,7 @@
 <?php include('./includes/header.php'); ?>
 
 <?php 
-if (intval($_GET['subj']) == 0) {
+if (intval($_GET['page']) == 0) {
     redirect_to("content.php");
 }
     	if (isset($_POST['submit'])) {
@@ -24,23 +24,25 @@ foreach ($fields_with_lengths as $fieldname => $maxlength) {
 }
 if (empty($errors)) {
     // Perform Update
-    $id = mysql_prep($_GET['subj']);
+    $id = mysql_prep($_GET['page']);
     $menu_name = mysql_prep($_POST['menu_name']);
+    $content = mysql_prep($_POST['content']);
     $position = mysql_prep($_POST['position']);
     $visible = mysql_prep($_POST['visible']);
     
-    $query = "UPDATE subjects SET 
-                menu_name = '{$menu_name}', 
+    $query = "UPDATE pages SET 
+                menu_name = '{$menu_name}',
+                content = '{$content}',
                 position = {$position}, 
                 visible = {$visible} 
             WHERE id = {$id}";
     $result = $connection->query($query);
     if ($connection->affected_rows == 1) {
         // Success
-        $message = "The subject was successfully updated.";
+        $message = "The Page was successfully updated.";
     } else {
         // Failed
-        $message = "The subject update failed.";
+        $message = "The Page update failed.";
         $message .= "<br />";
     }
     
@@ -65,18 +67,8 @@ if (empty($errors)) {
                 <div class="space-y-2">
                     <h2 class="text-sm font-semibold tracking-widest uppercase dark:text-gray-400">Navigation</h2>
                     <div class="flex flex-col space-y-1">
-                        <?php echo navigation($subject_one, $page_one); ?>
+                        <?php echo navigation($page_one, $page_one); ?>
                     </div>
-                    <div class="bg-teal-700 text-white rounded-sm p-2 hover:bg-teal-500">
-                    <a href="new-subject.php">
-                        Add New Subject
-                    </a>
-                </div>
-                <div class="bg-teal-700 text-white rounded-sm p-2 hover:bg-teal-500">
-                    <a href="new-page.php?subj=<?php echo urlencode($subject_one['id']); ?>">
-                        Add New Page
-                    </a>                    
-                </div>
 
                 </div>
             </nav>
@@ -94,25 +86,29 @@ if (empty($errors)) {
                         }
                     ?>
                </div>
-                <form action="edit-subject.php?subj=<?php echo urlencode($subject_one['id']); ?>" method="post" class="rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
-                    <h2 class="text-lg font-medium title-font mb-5">Edit Subject: 
-                        <?php echo $subject_one['menu_name'] ?>
+                <form action="edit-page.php?page=<?php echo urlencode($page_one['id']); ?>" method="post" class="rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
+                    <h2 class="text-lg font-medium title-font mb-5">Edit Page: 
+                        <?php echo $page_one['menu_name'] ?>
                     </h2>
                     <div class="relative mb-4">
                         <label for="menu_name" class="leading-7 text-sm ">Menu Name</label>
-                        <input type="text" value="<?php echo $subject_one['menu_name']; ?>" id="menu_name" name="menu_name" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <input type="text" value="<?php echo $page_one['menu_name']; ?>" id="menu_name" name="menu_name" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                    </div>
+                    <div class="relative mb-4">
+                        <label for="content" class="leading-7 text-sm ">Content</label>
+                        <input type="text" value="<?php echo $page_one['content']; ?>" id="content" name="content" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                     </div>
                     <div class="relative mb-4">
                         <label for="position" class="leading-7 text-sm ">Position</label>
 
                         <select name="position" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         <?php 
-                            $subject_set = get_all_subject();
-                            $subject_count = mysqli_num_rows($subject_set);
+                            $page_set = get_all_pages($subject_one);
+                            $page_count = mysqli_num_rows($page_set);
 
-                            for ($count=1; $count <= $subject_count+1; $count++) { 
+                            for ($count=1; $count <= $page_count+1; $count++) { 
                                 echo "<Option value=\"1\"";
-                                if($subject_one['position'] == $count){
+                                if($page_one['position'] == $count){
 
                                     echo " selected ";
                                 }
@@ -125,9 +121,9 @@ if (empty($errors)) {
                     <div class="relative mb-4">
                         <p class="leading-7 text-sm">Visible</p>
 
-                        <input type="radio" id="forno" name="visible" value="0" <?php if($subject_one['visible'] == 0) {echo " checked "; } ?> class=" bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <input type="radio" id="forno" name="visible" value="0" <?php if($page_one['visible'] == 0) {echo " checked "; } ?> class=" bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         <label for="forno" class="leading-7 text-sm mr-8">No</label>
-                        <input type="radio" id="foryes" name="visible" <?php if($subject_one['visible'] == 1) {echo " checked "; } ?> value="1" class=" bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <input type="radio" id="foryes" name="visible" <?php if($page_one['visible'] == 1) {echo " checked "; } ?> value="1" class=" bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         <label for="foryes" class="leading-7 text-sm ">Yes</label>
                     </div>
                     <div class="flex justify-between item-center gap-4 py-2">
@@ -135,7 +131,7 @@ if (empty($errors)) {
                         <button type="button" class="text-white bg-orange-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"><a href="content.php">Cancel</a></button>
                     </div>
                 </form>
-                <button type="button" class="text-white bg-red-500 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-600 rounded text-lg "><a href="delete-subject.php?subj=<?php echo urlencode($subject_one["id"]) ?>"  onclick="return confirm('Are you sure?');">DELETE</a></button>
+                <button type="button" class="text-white bg-red-500 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-600 rounded text-lg "><a href="delete-page.php?page=<?php echo urlencode($page_one["id"]) ?>"  onclick="return confirm('Are you sure?');">DELETE</a></button>
 
             </section>
         </div>

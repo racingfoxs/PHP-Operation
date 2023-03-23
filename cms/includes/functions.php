@@ -12,7 +12,7 @@ function redirect_to($location = NULL){
 
 function mysql_prep( $value ) {
     global $connection;
-    $value = mysqli_real_escape_string(  $connection, $value );
+    $value = mysqli_real_escape_string( $connection, $value );
    
     return $value;
 }
@@ -94,12 +94,15 @@ function navigation($subject_one, $page_one ){
                         while ($subject = mysqli_fetch_array($subjects)) {
                             $output .= "<a";
                             $output .= " href=\"edit-subject.php?subj=" . urlencode($subject['id']) . "\"";
+                            $output .= " class=\" hover:bg-teal-700 ";
 
                             if(isset($subject_one['id'])){
                                 if($subject['id'] == $subject_one['id']){
-                                    $output .= " class=\" bg-teal-800 text-white p-1 rounded-sm\"";
+                                    $output .= "bg-teal-800 text-white p-1 rounded-sm";
                                 }
-                            }                           
+                            }                   
+                            
+                            $output .= "\"";
                                                         
                             $output .= ">{$subject["menu_name"]}</a>";
 

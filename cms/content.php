@@ -10,7 +10,7 @@
 <div class="flex justify-start item-center">
    
     <div>
-        <aside class="w-full h-full p-6 sm:w-60 dark:bg-gray-900 dark:text-gray-100">
+        <aside class="w-full h-screen p-6 sm:w-60 dark:bg-gray-900 dark:text-gray-100">
             <nav class="space-y-8 text-sm">
             <div class="space-y-2">
                     <h2 class="text-sm font-semibold tracking-widest uppercase dark:text-gray-400">Navigation</h2>
@@ -24,6 +24,12 @@
                         Add New Subject
                     </a>
                 </div>
+                <div class="bg-teal-700 text-white rounded-sm p-2 hover:bg-teal-500">
+                    <a href="new-page.php?subj=<?php echo urlencode($subject_one['id']); ?>">
+                        Add New Page
+                    </a>                    
+                </div>
+               
             </nav>
         </aside>
     </div>
@@ -37,7 +43,7 @@
 				<?php echo $page_one['content']; ?>
 			</div>
 			<br />
-			<a class="bg-red-500 rounded p-2 text-white hover:bg-red-400" href="edit_page.php?page=<?php echo urlencode($subject_one['id']); ?>">Edit page</a>
+			<a class="bg-red-500 rounded p-2 text-white hover:bg-red-400" href="edit-page.php?page=<?php echo urlencode($page_one['id']); ?>">Edit page</a>
 		<?php } else { // nothing selected ?>
 			<h2 class="text-xl text-teal-400 font-bold">Select a subject or page to edit</h2>
 		<?php } ?>
